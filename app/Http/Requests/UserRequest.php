@@ -22,9 +22,10 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $usersId = $this->route('users');
         return [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users,email,' . ($usersId ? $usersId->id : null),
             'password' => 'required',
              
         ];
@@ -34,6 +35,7 @@ class UserRequest extends FormRequest
         return[
             'name.required' => 'Deve informar o nome!',
             'email.required' => 'Informar o email é obrigatório!',
+            'email.unique' => 'O email já está cadastrado!',
             'password.required' => 'Informar a senha é obrigatório!',
              ];
     }
